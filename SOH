@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Évaluateur de Condition Physique et de Bien-être</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #74ebd5, #acb6e5);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            width: 100%;
+            max-width: 600px;
+            margin: 20px auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #2c3e50;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 15px;
+            color: #34495e;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        #resultats {
+            margin-top: 30px;
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 10px;
+            display: none;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #resultats h2 {
+            font-size: 1.5em;
+            color: #16a085;
+        }
+
+        p {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        span {
+            font-weight: bold;
+            color: #2980b9;
+        }
+
+        .note {
+            text-align: left;
+            background-color: #f7f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .note h2 {
+            font-size: 1.3em;
+            color: #e74c3c;
+            margin-bottom: 10px;
+        }
+
+        .note p {
+            font-size: 1em;
+            margin-bottom: 15px;
+            color: #34495e;
+        }
+
+        footer {
+            background-color: #f7f9f9;
+            padding: 20px;
+            text-align: center;
+            font-size: 0.9em;
+            color: #95a5a6;
+            margin-top: auto;
+            width: 100%;
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Calculateur de santé</h1>
+        <form id="sante-form">
+            <label for="sexe">Sexe :</label>
+            <select name="sexe" id="sexe" required>
+                <option value="homme">Homme</option>
+                <option value="femme">Femme</option>
+            </select>
+            <label for="distance">Distance parcourue en mètres (pendant 12 minutes) :</label>
+            <input type="number" name="distance" id="distance" required>
+            <input type="submit" value="Calculer">
+        </form>
+
+        <div id="resultats">
+            <h2>Résultats du calcul de santé</h2>
+            <p>VO2 max estimé : <span id="vo2max"></span></p>
+            <p>SOH : <span id="soh"></span>%</p>
+            <p>Années restantes estimées : <span id="annees-restantes"></span></p>
+        </div>
+
+        <div class="note">
+            <h2>Titre : Évaluateur de Condition Physique et de Bien-être</h2>
+            <p>Description :</p>
+            <p>Ce programme est un outil interactif conçu pour vous aider à évaluer votre condition physique actuelle et votre potentiel de bien-être à long terme. Il utilise des indicateurs scientifiques reconnus pour vous donner un aperçu de votre santé cardiovasculaire.</p>
+
+            <p><strong>Comment ça marche :</strong></p>
+            <ul>
+                <li><strong>Données d'entrée :</strong> Vous indiquez votre sexe (homme ou femme) pour une évaluation personnalisée. Vous entrez la distance que vous pouvez parcourir en 12 minutes, une adaptation du test de Cooper, un indicateur largement utilisé de la condition physique.</li>
+                <li><strong>Important à savoir :</strong> Cet outil n'est pas un diagnostic médical et ne prédit pas votre espérance de vie réelle. Il s'agit d'un indicateur de votre condition physique actuelle et de votre potentiel de bien-être à long terme.</li>
+            </ul>
+
+            <p>Les résultats sont destinés à vous motiver à maintenir ou améliorer votre santé cardiovasculaire. Une bonne condition physique est associée à une meilleure qualité de vie et à un risque réduit de nombreuses maladies. N'oubliez pas que la santé est influencée par de nombreux facteurs sous votre contrôle, comme l'alimentation, l'exercice et la gestion du stress.</p>
+
+            <p>Utilisez cet outil comme une source de motivation pour adopter un mode de vie sain. Consultez toujours un professionnel de santé pour des conseils personnalisés sur votre santé et bien-être.</p>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2024 Calculateur de Santé. Tous droits réservés. Créé par Mohamed ATRANI.
+    </footer>
+
+    <script>
+        document.getElementById('sante-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const sexe = document.getElementById('sexe').value;
+            const distance = parseFloat(document.getElementById('distance').value);
+
+            let VO2max25_ans, age_fin_de_vie;
+
+            if (sexe === "homme") {
+                VO2max25_ans = 44.6;
+                age_fin_de_vie = 71;
+            } else {
+                VO2max25_ans = 35.7;
+                age_fin_de_vie = 76;
+            }
+
+            const VO2max = (distance - 504.9) / 44.73;
+            const SOH = (VO2max / VO2max25_ans) * 100;
+
+            let annees_restantes;
+            if (SOH < 50) {
+                annees_restantes = 0;
+            } else {
+                annees_restantes = (SOH - 50) / (100 - 50) * (age_fin_de_vie - 25);
+            }
+
+            document.getElementById('vo2max').textContent = VO2max.toFixed(2);
+            document.getElementById('soh').textContent = SOH.toFixed(2);
+            document.getElementById('annees-restantes').textContent = annees_restantes.toFixed(2);
+
+            document.getElementById('resultats').style.display = 'block';
+        });
+    </script>
+
+</body>
+</html>
