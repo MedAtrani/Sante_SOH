@@ -1,3 +1,6 @@
+Voici l'intégralité du programme avec l'ajout de la fonctionnalité de bouton GPS, tout en conservant l'apparence initiale et la possibilité d'entrer manuellement la distance ou d'utiliser le GPS pour la mesurer.
+
+```html
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -55,7 +58,8 @@
             font-size: 16px;
         }
 
-        input[type="submit"] {
+        input[type="submit"],
+        button {
             width: 100%;
             padding: 12px;
             background-color: #3498db;
@@ -64,9 +68,11 @@
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
+            margin-bottom: 20px;
         }
 
-        input[type="submit"]:hover {
+        input[type="submit"]:hover,
+        button:hover {
             background-color: #2980b9;
         }
 
@@ -123,8 +129,12 @@
                 <option value="homme">Homme</option>
                 <option value="femme">Femme</option>
             </select>
+
             <label for="distance">Distance parcourue en mètres (pendant 12 minutes) :</label>
-            <input type="number" name="distance" id="distance" required>
+            <input type="number" name="distance" id="distance" placeholder="Entrez manuellement la distance" required>
+
+            <button type="button" id="gpsButton">Utiliser le GPS pour la distance</button>
+
             <input type="submit" value="Calculer">
         </form>
 
@@ -144,13 +154,18 @@
 
     <script>
         let countdown;
-        let totalTime = 12 * 60; // 12 minutes in seconds
+        let totalTime = 12 * 60; // 12 minutes en secondes
 
         document.getElementById('sante-form').addEventListener('submit', function (e) {
             e.preventDefault();
 
             const sexe = document.getElementById('sexe').value;
-            const distance = parseFloat(document.getElementById('distance').value);
+            let distance = parseFloat(document.getElementById('distance').value);
+
+            if (isNaN(distance)) {
+                alert("Veuillez entrer une distance valide.");
+                return;
+            }
 
             let VO2max25_ans, age_fin_de_vie;
 
@@ -178,7 +193,6 @@
 
             document.getElementById('resultats').style.display = 'block';
 
-            // Démarrer le compte à rebours de 12 minutes
             clearInterval(countdown);
             startCountdown();
         });
@@ -198,8 +212,44 @@
                 timeLeft--;
             }, 1000);
         }
-    </script>
 
-</body>
+        // Fonction pour obtenir la distance via le GPS
+        document.getElementById('gpsButton').addEventListener('click', function () {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(getDistanceFromGPS);
+            } else {
+                alert("La géolocalisation n'est pas supportée par ce navigateur.");
+            }
+        });
 
-</html>
+        function getDistanceFromGPS(position) {
+            const startLatitude = position.coords.latitude;
+            const startLongitude = position.coords.longitude;
+
+            alert("Veuillez courir pendant 12 minutes pour mesurer la distance.");
+
+            setTimeout(function () {
+                navigator.geolocation.getCurrentPosition(function (positionEnd) {
+                    const endLatitude = positionEnd.coords.latitude;
+                    const endLongitude = positionEnd.coords.longitude;
+
+                    const distance = calculateDistance(startLatitude, startLongitude, endLatitude, endLongitude);
+                    document.getElementById('distance').value = distance;
+                    alert(`Distance parcourue : ${distance.toFixed(2)} mètres`);
+                });
+            }, 12 * 60 * 1000); // 12 minutes
+        }
+
+        // Fonction de calcul de la distance entre deux points GPS
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371000; // Rayon de la Terre en mètres
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+            const distance = R * c; // Distance en mètres
+            return distance;
+        }
+    </script
