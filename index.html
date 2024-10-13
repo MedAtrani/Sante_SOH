@@ -1,9 +1,5 @@
-Voici l'intégralité du programme avec l'ajout de la fonctionnalité de bouton GPS, tout en conservant l'apparence initiale et la possibilité d'entrer manuellement la distance ou d'utiliser le GPS pour la mesurer.
-
-```html
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -47,8 +43,7 @@ Voici l'intégralité du programme avec l'ajout de la fonctionnalité de bouton 
             color: #34495e;
         }
 
-        input[type="number"],
-        select {
+        input[type="number"], select {
             width: 100%;
             padding: 12px;
             margin-top: 10px;
@@ -58,8 +53,7 @@ Voici l'intégralité du programme avec l'ajout de la fonctionnalité de bouton 
             font-size: 16px;
         }
 
-        input[type="submit"],
-        button {
+        input[type="submit"] {
             width: 100%;
             padding: 12px;
             background-color: #3498db;
@@ -68,11 +62,9 @@ Voici l'intégralité du programme avec l'ajout de la fonctionnalité de bouton 
             border-radius: 8px;
             font-size: 16px;
             cursor: pointer;
-            margin-bottom: 20px;
         }
 
-        input[type="submit"]:hover,
-        button:hover {
+        input[type="submit"]:hover {
             background-color: #2980b9;
         }
 
@@ -100,10 +92,25 @@ Voici l'intégralité du programme avec l'ajout de la fonctionnalité de bouton 
             color: #2980b9;
         }
 
-        #timer {
-            font-size: 1.5em;
+        .note {
+            text-align: left;
+            background-color: #f7f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 30px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .note h2 {
+            font-size: 1.3em;
             color: #e74c3c;
-            margin-top: 20px;
+            margin-bottom: 10px;
+        }
+
+        .note p {
+            font-size: 1em;
+            margin-bottom: 15px;
+            color: #34495e;
         }
 
         footer {
@@ -116,9 +123,40 @@ Voici l'intégralité du programme avec l'ajout de la fonctionnalité de bouton 
             width: 100%;
             box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.1);
         }
+
+        #gps-tracking {
+            display: none;
+            margin-top: 20px;
+        }
+
+        #start-gps {
+            background-color: #2ecc71;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #start-gps:hover {
+            background-color: #27ae60;
+        }
+
+        #timer, #distance-tracked {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        #input-method {
+            margin-top: 20px;
+            padding: 10px;
+            width: 100%;
+            border: 2px solid #3498db;
+            border-radius: 8px;
+            font-size: 16px;
+        }
     </style>
 </head>
-
 <body>
 
     <div class="container">
@@ -130,21 +168,47 @@ Voici l'intégralité du programme avec l'ajout de la fonctionnalité de bouton 
                 <option value="femme">Femme</option>
             </select>
 
-            <label for="distance">Distance parcourue en mètres (pendant 12 minutes) :</label>
-            <input type="number" name="distance" id="distance" placeholder="Entrez manuellement la distance" required>
+            <label for="input-method">Méthode de saisie de la distance :</label>
+            <select id="input-method">
+                <option value="manual">Saisie manuelle</option>
+                <option value="gps">Suivi GPS</option>
+            </select>
 
-            <button type="button" id="gpsButton">Utiliser le GPS pour la distance</button>
+            <div id="distance-input">
+                <label for="distance">Distance parcourue en mètres (pendant 12 minutes) :</label>
+                <input type="number" name="distance" id="distance" required>
+            </div>
+
+            <div id="gps-tracking">
+                <button type="button" id="start-gps">Démarrer le suivi GPS</button>
+                <p id="timer">Temps restant : 12:00</p>
+                <p id="distance-tracked">Distance parcourue : 0 m</p>
+            </div>
 
             <input type="submit" value="Calculer">
         </form>
-
-        <div id="timer">Temps restant : 12:00</div>
 
         <div id="resultats">
             <h2>Résultats du calcul de santé</h2>
             <p>VO2 max estimé : <span id="vo2max"></span></p>
             <p>SOH : <span id="soh"></span>%</p>
             <p>Années restantes estimées : <span id="annees-restantes"></span></p>
+        </div>
+
+        <div class="note">
+            <h2>Titre : Évaluateur de Condition Physique et de Bien-être</h2>
+            <p>Description :</p>
+            <p>Ce programme est un outil interactif conçu pour vous aider à évaluer votre condition physique actuelle et votre potentiel de bien-être à long terme. Il utilise des indicateurs scientifiques reconnus pour vous donner un aperçu de votre santé cardiovasculaire.</p>
+
+            <p><strong>Comment ça marche :</strong></p>
+            <ul>
+                <li><strong>Données d'entrée :</strong> Vous indiquez votre sexe (homme ou femme) pour une évaluation personnalisée. Vous pouvez soit entrer manuellement la distance parcourue en 12 minutes, soit utiliser le suivi GPS pour mesurer automatiquement cette distance.</li>
+                <li><strong>Important à savoir :</strong> Cet outil n'est pas un diagnostic médical et ne prédit pas votre espérance de vie réelle. Il s'agit d'un indicateur de votre condition physique actuelle et de votre potentiel de bien-être à long terme.</li>
+            </ul>
+
+            <p>Les résultats sont destinés à vous motiver à maintenir ou améliorer votre santé cardiovasculaire. Une bonne condition physique est associée à une meilleure qualité de vie et à un risque réduit de nombreuses maladies. N'oubliez pas que la santé est influencée par de nombreux facteurs sous votre contrôle, comme l'alimentation, l'exercice et la gestion du stress.</p>
+
+            <p>Utilisez cet outil comme une source de motivation pour adopter un mode de vie sain. Consultez toujours un professionnel de santé pour des conseils personnalisés sur votre santé et bien-être.</p>
         </div>
     </div>
 
@@ -153,19 +217,85 @@ Voici l'intégralité du programme avec l'ajout de la fonctionnalité de bouton 
     </footer>
 
     <script>
-        let countdown;
-        let totalTime = 12 * 60; // 12 minutes en secondes
+        let timer;
+        let startTime;
+        let watchId;
+        let totalDistance = 0;
+        let lastPosition;
 
-        document.getElementById('sante-form').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const sexe = document.getElementById('sexe').value;
-            let distance = parseFloat(document.getElementById('distance').value);
-
-            if (isNaN(distance)) {
-                alert("Veuillez entrer une distance valide.");
-                return;
+        document.getElementById('input-method').addEventListener('change', function(e) {
+            if (e.target.value === 'manual') {
+                document.getElementById('distance-input').style.display = 'block';
+                document.getElementById('gps-tracking').style.display = 'none';
+            } else {
+                document.getElementById('distance-input').style.display = 'none';
+                document.getElementById('gps-tracking').style.display = 'block';
             }
+        });
+
+        document.getElementById('start-gps').addEventListener('click', function() {
+            startTime = new Date().getTime();
+            timer = setInterval(updateTimer, 1000);
+            
+            if (navigator.geolocation) {
+                watchId = navigator.geolocation.watchPosition(updatePosition, handleError, {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                });
+            } else {
+                alert("La géolocalisation n'est pas supportée par ce navigateur.");
+            }
+        });
+
+        function updateTimer() {
+            let now = new Date().getTime();
+            let distance = 720000 - (now - startTime);
+            
+            if (distance < 0) {
+                clearInterval(timer);
+                navigator.geolocation.clearWatch(watchId);
+                document.getElementById('timer').textContent = "Temps écoulé !";
+                document.getElementById('distance').value = totalDistance.toFixed(2);
+            } else {
+                let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                document.getElementById('timer').textContent = `Temps restant : ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+            }
+        }
+
+        function updatePosition(position) {
+            if (lastPosition) {
+                totalDistance += calculateDistance(lastPosition.coords, position.coords);
+            }
+            lastPosition = position;
+            document.getElementById('distance-tracked').textContent = `Distance parcourue : ${totalDistance.toFixed(2)} m`;
+        }
+
+        function handleError(error) {
+            console.warn(`ERREUR(${error.code}): ${error.message}`);
+        }
+
+        function calculateDistance(pos1, pos2) {
+            const R = 6371e3; // Rayon de la Terre en mètres
+            const φ1 = pos1.latitude * Math.PI/180;
+            const φ2 = pos2.latitude * Math.PI/180;
+            const Δφ = (pos2.latitude-pos1.latitude) * Math.PI/180;
+            const Δλ = (pos2.longitude-pos1.longitude) * Math.PI/180;
+
+            const a = Math.sin(Δφ/2) * Math.sin(Δφ/2) +
+                      Math.cos(φ1) * Math.cos(φ2) *
+                      Math.sin(Δλ/2) * Math.sin(Δλ/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+
+            return R * c;
+        }
+
+        document.getElementById('sante-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const sexe = document.getElementById('sexe').value;
+            const distance = parseFloat(document.getElementById('distance').value) || totalDistance;
 
             let VO2max25_ans, age_fin_de_vie;
 
@@ -192,64 +322,8 @@ Voici l'intégralité du programme avec l'ajout de la fonctionnalité de bouton 
             document.getElementById('annees-restantes').textContent = annees_restantes.toFixed(2);
 
             document.getElementById('resultats').style.display = 'block';
-
-            clearInterval(countdown);
-            startCountdown();
         });
+    </script>
 
-        function startCountdown() {
-            let timeLeft = totalTime;
-            countdown = setInterval(function () {
-                if (timeLeft <= 0) {
-                    clearInterval(countdown);
-                    document.getElementById('timer').textContent = "Temps écoulé !";
-                    return;
-                }
-                let minutes = Math.floor(timeLeft / 60);
-                let seconds = timeLeft % 60;
-
-                document.getElementById('timer').textContent = `Temps restant : ${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
-                timeLeft--;
-            }, 1000);
-        }
-
-        // Fonction pour obtenir la distance via le GPS
-        document.getElementById('gpsButton').addEventListener('click', function () {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(getDistanceFromGPS);
-            } else {
-                alert("La géolocalisation n'est pas supportée par ce navigateur.");
-            }
-        });
-
-        function getDistanceFromGPS(position) {
-            const startLatitude = position.coords.latitude;
-            const startLongitude = position.coords.longitude;
-
-            alert("Veuillez courir pendant 12 minutes pour mesurer la distance.");
-
-            setTimeout(function () {
-                navigator.geolocation.getCurrentPosition(function (positionEnd) {
-                    const endLatitude = positionEnd.coords.latitude;
-                    const endLongitude = positionEnd.coords.longitude;
-
-                    const distance = calculateDistance(startLatitude, startLongitude, endLatitude, endLongitude);
-                    document.getElementById('distance').value = distance;
-                    alert(`Distance parcourue : ${distance.toFixed(2)} mètres`);
-                });
-            }, 12 * 60 * 1000); // 12 minutes
-        }
-
-        // Fonction de calcul de la distance entre deux points GPS
-        function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371000; // Rayon de la Terre en mètres
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-                Math.sin(dLon / 2) * Math.sin(dLon / 2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-            const distance = R * c; // Distance en mètres
-            return distance;
-        }
-    </script
+</body>
+</html>
